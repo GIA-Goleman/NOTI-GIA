@@ -23,7 +23,31 @@
     </style>
 </head>
 <body>
-    <!-- REEMPLAZA LA URL DE ABAJO CON TU URL DE EJECUCIÓN (/exec) -->
-    <iframe src="https://script.google.com/macros/s/AKfycbySsN03d83TMqp3scMbVpDjw3twKxXexdBT1Wp7NgsFGkefAsA_SK7SxxC5kdCq7xY/exec"></iframe>
+    <!-- El src se deja vacío intencionalmente, lo llenamos con JavaScript abajo -->
+    <iframe id="appFrame" src=""></iframe>
+
+    <script>
+        // --- CONFIGURACIÓN ---
+        // Pega aquí tu URL larga de Google Apps Script (/exec)
+        const BASE_URL = "https://script.google.com/macros/s/TU_ID_LARGO_DEL_SCRIPT/exec";
+
+        // --- LÓGICA DE DIRECCIONAMIENTO ---
+        // 1. Detectamos si escribiste algo extra en la URL de tu dominio (ej: ?page=admin)
+        const params = new URLSearchParams(window.location.search);
+        const pagina = params.get('page');
+
+        // 2. Construimos la URL final para el iframe
+        let urlFinal = BASE_URL;
+        
+        if (pagina) {
+            // Si hay parámetro (admin), se lo pegamos a la URL de Google
+            // Usamos '&' o '?' dependiendo de si la URL base ya tiene parámetros
+            const separador = BASE_URL.includes('?') ? '&' : '?';
+            urlFinal += `${separador}page=${pagina}`;
+        }
+
+        // 3. Cargamos el iframe
+        document.getElementById('appFrame').src = urlFinal;
+    </script>
 </body>
 </html>
